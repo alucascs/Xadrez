@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace tabuleiro
+﻿namespace tabuleiro
 {
-    internal class Tabuleiro
+    class Tabuleiro
     {
+
         public int Linhas { get; set; }
         public int Colunas { get; set; }
         private Peca[,] Pecas;
@@ -16,12 +11,12 @@ namespace tabuleiro
         {
             Linhas = linhas;
             Colunas = colunas;
-            Pecas = new Peca[Linhas, Colunas];
+            Pecas = new Peca[linhas, colunas];
         }
 
-        public Peca peca(int linhas, int colunas)
+        public Peca peca(int linha, int coluna)
         {
-            return Pecas[linhas, colunas];
+            return Pecas[linha, coluna];
         }
 
         public Peca peca(Posicao pos)
@@ -31,7 +26,7 @@ namespace tabuleiro
 
         public bool ExistePeca(Posicao pos)
         {
-            ValidarPosicao(pos);
+            validarPosicao(pos);
             return peca(pos) != null;
         }
 
@@ -45,7 +40,19 @@ namespace tabuleiro
             p.Posicao = pos;
         }
 
-        public bool PosicaoValida(Posicao pos)
+        public Peca RetirarPeca(Posicao pos)
+        {
+            if (peca(pos) == null)
+            {
+                return null;
+            }
+            Peca aux = peca(pos);
+            aux.Posicao = null;
+            Pecas[pos.Linha, pos.Coluna] = null;
+            return aux;
+        }
+
+        public bool posicaoValida(Posicao pos)
         {
             if (pos.Linha < 0 || pos.Linha >= Linhas || pos.Coluna < 0 || pos.Coluna >= Colunas)
             {
@@ -54,9 +61,9 @@ namespace tabuleiro
             return true;
         }
 
-        public void ValidarPosicao(Posicao pos)
+        public void validarPosicao(Posicao pos)
         {
-            if (!PosicaoValida(pos))
+            if (!posicaoValida(pos))
             {
                 throw new TabuleiroException("Posição inválida!");
             }
