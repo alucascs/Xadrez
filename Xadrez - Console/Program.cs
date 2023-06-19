@@ -1,6 +1,5 @@
 ﻿using System;
 using tabuleiro;
-using Xadrez___Console;
 using Xadrez;
 
 namespace Xadrez
@@ -15,12 +14,13 @@ namespace Xadrez
             {
                 Tabuleiro tab = new Tabuleiro(8, 8);
                 tab.ColocarPeca(new Torre(Cor.Preta, tab), new Posicao(0, 0));
-                tab.ColocarPeca(new Torre(Cor.Preta, tab), new Posicao(1, 9));
+                tab.ColocarPeca(new Torre(Cor.Preta, tab), new Posicao(1, 3));
                 tab.ColocarPeca(new Rei(Cor.Preta, tab), new Posicao(2, 0));
+                tab.ColocarPeca(new Torre(Cor.Branca, tab), new Posicao(4, 0));
 
                 Tela.ImprimirTabuleiro(tab);
             }
-            catch (TabuleiroException e)
+            catch (TabuleiroException e) 
             {
                 Console.WriteLine(e.Message);
             }
