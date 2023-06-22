@@ -63,13 +63,13 @@ namespace Xadrez
                 if (origem.Coluna != destino.Coluna && pecaCapturada == null)
                 {
                     Posicao PosP;
-                    if(p.Cor == Cor.Branca)
+                    if (p.Cor == Cor.Branca)
                     {
                         PosP = new Posicao(destino.Linha + 1, destino.Coluna);
                     }
                     else
                     {
-                        PosP = new Posicao(destino.Linha -1, destino.Coluna);
+                        PosP = new Posicao(destino.Linha - 1, destino.Coluna);
                     }
                     pecaCapturada = Tab.RetirarPeca(PosP);
                     Capturadas.Add(pecaCapturada);
@@ -109,13 +109,13 @@ namespace Xadrez
                 Tab.ColocarPeca(T, OrigemT1);
             }
             // #EnPassant
-            if(p is Peao)
+            if (p is Peao)
             {
-                if(origem.Coluna != destino.Coluna && pecaCapturada == VulneravelEnPassant)
+                if (origem.Coluna != destino.Coluna && pecaCapturada == VulneravelEnPassant)
                 {
                     Peca peao = Tab.RetirarPeca(destino);
                     Posicao Posp;
-                    if(p.Cor == Cor.Branca)
+                    if (p.Cor == Cor.Branca)
                     {
                         Posp = new Posicao(3, destino.Coluna);
                     }
@@ -135,6 +135,22 @@ namespace Xadrez
                 DesfazerMovimento(origem, destino, pecaCapturada);
                 throw new TabuleiroException("Você não pode se colocar em Xeque!");
             }
+
+            Peca p = Tab.peca(destino);
+
+            // #Promocao
+
+            if (p is Peao)
+            {
+                if ((p.Cor == Cor.Branca && destino.Linha == 0)||(p.Cor == Cor.Preta && destino.Linha == 7))
+                {
+                    p = Tab.RetirarPeca(destino);
+                    Pecas.Remove(p);
+                    Peca dama = new Rainha(p.Cor, Tab);
+                    Tab.ColocarPeca(dama, destino);
+                }
+            }
+
             if (EstaEmXeque(Adversaria(JogadorAtual)))
             {
                 Xeque = true;
@@ -152,8 +168,6 @@ namespace Xadrez
                 Turno++;
                 MudaJogador();
             }
-
-            Peca p = Tab.peca(destino);
 
             // #EnPassant
 
